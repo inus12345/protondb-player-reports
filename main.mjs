@@ -49,6 +49,6 @@ try {
  }
  await Actor.setValue('SOURCE_PROOF',{...manifest.metrics,datasetRows:existing.size,deliveredThisExecution:newRows,billingConfigured:!!price});
  await Actor.setValue('LICENSE_NOTICE',{attribution:'ProtonDB contributors and bdefore; normalized by TheScrapeLab',databaseLicense:'https://opendatacommons.org/licenses/odbl/1-0/',contentsLicense:'https://opendatacommons.org/licenses/dbcl/1-0/',source:'https://github.com/bdefore/protondb-data',transformations:'https://github.com/inus12345/protondb-player-reports/blob/main/collector.mjs',snapshot:manifest.metrics.snapshot});
- await Actor.setStatusMessage(`Delivered ${existing.size} full written reports from snapshot ${manifest.metrics.snapshot.date}.`);
+ await Actor.setStatusMessage(`Delivered ${existing.size} full written reports from snapshot ${manifest.metrics.snapshot.date}.${manifest.metrics.limitedByBudget?' Partial export: spending limit reached.':''}`);
 } catch(error){await Actor.fail(error.message);}
 await Actor.exit();

@@ -30,7 +30,7 @@ Contains information from ProtonDB contributors, exported by [bdefore](https://g
 
 ## Status and price proposal
 
-Private release validation is in progress. Pricing will consist of a disclosed export preparation fee plus a per-written-report charge; effective prices will be verified before publication. Rejected records and suppressed duplicates do not incur report charges. An empty match can still incur the preparation fee.
+Private release validation is in progress. Pricing will consist of a disclosed export preparation fee plus a per-written-report charge; private settings currently save $0.05 per start (per GB, minimum one) plus $0.0005 per written report. These settings are undergoing native billing verification before publication. Rejected records and suppressed duplicates do not incur report charges. An empty match can still incur the preparation fee.
 
 ## Python API example
 
