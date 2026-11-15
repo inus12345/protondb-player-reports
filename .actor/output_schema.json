@@ -1,0 +1,8 @@
+{
+  "actorOutputSchemaVersion": 1,
+  "title": "Player report export",
+  "properties": {
+    "reports": {"type": "string", "title": "Written player reports", "template": "{{links.apiDefaultDatasetUrl}}/items"},
+    "license": {"type": "string", "title": "Attribution and license notice", "template": "{{links.apiDefaultKeyValueStoreUrl}}/records/LICENSE_NOTICE"}
+  }
+}

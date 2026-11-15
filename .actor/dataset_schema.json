@@ -1,0 +1,149 @@
+{
+  "actorSpecification": 1,
+  "fields": {
+    "recordId": {
+      "type": "string"
+    },
+    "identityCandidate": {
+      "type": "string"
+    },
+    "steamAppId": {
+      "type": "string"
+    },
+    "gameTitle": {
+      "type": "string"
+    },
+    "date": {
+      "type": "string"
+    },
+    "verdict": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "object"
+    },
+    "noteText": {
+      "type": "string"
+    },
+    "gpu": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "os": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "gpuDriver": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "protonVersion": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "protonVariant": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "protonVersionSpecificity": {
+      "type": "string"
+    },
+    "snapshotDate": {
+      "type": "string"
+    },
+    "sourceUrl": {
+      "type": "string"
+    },
+    "archiveUrl": {
+      "type": "string"
+    },
+    "attribution": {
+      "type": "string"
+    },
+    "databaseLicense": {
+      "type": "string"
+    },
+    "contentsLicense": {
+      "type": "string"
+    },
+    "collectedAt": {
+      "type": "string"
+    }
+  },
+  "views": {
+    "reports": {
+      "title": "Written player reports",
+      "transformation": {
+        "fields": [
+          "gameTitle",
+          "steamAppId",
+          "date",
+          "verdict",
+          "noteText",
+          "gpu",
+          "os",
+          "gpuDriver",
+          "protonVersion",
+          "protonVariant",
+          "protonVersionSpecificity",
+          "snapshotDate",
+          "sourceUrl"
+        ]
+      },
+      "display": {
+        "component": "table",
+        "properties": {
+          "gameTitle": {
+            "label": "gameTitle"
+          },
+          "steamAppId": {
+            "label": "steamAppId"
+          },
+          "date": {
+            "label": "date"
+          },
+          "verdict": {
+            "label": "verdict"
+          },
+          "noteText": {
+            "label": "noteText"
+          },
+          "gpu": {
+            "label": "gpu"
+          },
+          "os": {
+            "label": "os"
+          },
+          "gpuDriver": {
+            "label": "gpuDriver"
+          },
+          "protonVersion": {
+            "label": "protonVersion"
+          },
+          "protonVariant": {
+            "label": "protonVariant"
+          },
+          "protonVersionSpecificity": {
+            "label": "protonVersionSpecificity"
+          },
+          "snapshotDate": {
+            "label": "snapshotDate"
+          },
+          "sourceUrl": {
+            "label": "sourceUrl"
+          }
+        }
+      }
+    }
+  }
+}

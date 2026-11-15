@@ -1,0 +1,1 @@
+Approved production plan: newest verified periodic archive; two inputs; content identity; native billing/recovery validation; progressive10/100/500/1000 runs; maximumUSD10 testing; public code and ODbL/DbCL compliance; publish only after all gates. Start fee plus per-written-report pricing approved.

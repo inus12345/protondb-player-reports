@@ -1,0 +1,6 @@
+node_modules
+.runtime
+storage
+.git
+.env*
+release

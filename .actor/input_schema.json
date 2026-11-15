@@ -1,0 +1,24 @@
+{
+  "title": "ProtonDB Player Reports",
+  "type": "object",
+  "schemaVersion": 1,
+  "additionalProperties": false,
+  "properties": {
+    "filter": {
+      "title": "Game or hardware filter",
+      "type": "string",
+      "description": "Optional: game:292030 for one Steam game, or hardware:NVIDIA to match supplied GPU, OS or driver text. Leave out for all games.",
+      "editor": "textfield",
+      "pattern": "^$|^(game:[1-9]\\d*|hardware:\\S.{0,99})$"
+    },
+    "maxResults": {
+      "title": "Maximum written reports",
+      "type": "integer",
+      "description": "Newest matching written reports first. Uses the maintainer's latest periodic archive, not a live report feed.",
+      "default": 10,
+      "prefill": 10,
+      "minimum": 1,
+      "maximum": 10000
+    }
+  }
+}

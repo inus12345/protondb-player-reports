@@ -1,0 +1,15 @@
+{
+  "actorSpecification": 1,
+  "name": "protondb-player-reports",
+  "title": "ProtonDB Player Reports",
+  "description": "Export full player-written ProtonDB compatibility reports with game IDs, dates, verdicts and supplied hardware/software details from the maintainer's latest periodic download.",
+  "version": "0.1",
+  "dockerfile": "../Dockerfile",
+  "input": "./input_schema.json",
+  "storages": {
+    "dataset": "./dataset_schema.json"
+  },
+  "output": "./output_schema.json",
+  "minMemoryMbytes": 512,
+  "maxMemoryMbytes": 1024
+}
