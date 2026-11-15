@@ -1,5 +1,6 @@
 import { Actor } from 'apify';
 import path from 'node:path';
+import { unbilledCount } from './billing.mjs';
 import { collect, hash, validate } from './collector.mjs';
 await Actor.init();
 try {
@@ -43,7 +44,7 @@ try {
   if(billedPrefix<i+batch.length && price && runId){
    const run=await client.run(runId).get();
    const total=Object.entries(run.chargedEventCounts??{}).reduce((s,[k,n])=>s+n*(pricing.perEventPrices[k]??0),0);
-   if(total+Math.max(0,i+batch.length-billedPrefix)*price>pricing.maxTotalChargeUsd+1e-9){await Actor.setStatusMessage('Stopped at the spending limit; output is partial.');break;}
+   if(total+unbilledCount(billedPrefix,i,batch.length)*price>pricing.maxTotalChargeUsd+1e-9){await Actor.setStatusMessage('Stopped at the spending limit; output is partial.');break;}
   }
   const missing=batch.filter(r=>!existing.has(r.recordId));
   if(missing.length){
@@ -53,7 +54,7 @@ try {
    newRows+=missing.length;
   }
   if(billedPrefix<i+batch.length && price && runId){
-   const delta=i+batch.length-billedPrefix;
+   const delta=unbilledCount(billedPrefix,i,batch.length);
    await client.run(runId).charge({eventName,count:delta,idempotencyKey:`reports-${runId}-${key}`});
    billedPrefix=i+batch.length;
   }

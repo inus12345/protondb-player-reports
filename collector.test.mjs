@@ -58,3 +58,14 @@ test('a transient source error retries and then retains real output',async()=>{
  const r=await collect({}, {directory:temp(),fetcher:async url=>{calls++;if(calls===1)return new Response('busy',{status:503,headers:{'retry-after':'1'}});return url.includes('/contents/')?new Response(JSON.stringify([f.entry])):new Response(f.gz);}});
  assert.equal(r.rows.length,1);assert.equal(calls,3);
 });
+
+import { unbilledCount } from './billing.mjs';
+test('native charged prefix prevents rebilling after local receipt loss',()=>{
+ assert.equal(unbilledCount(10,0,10),0);
+ assert.equal(unbilledCount(1000,0,25),0);
+ assert.equal(unbilledCount(25,25,25),25);
+ assert.equal(unbilledCount(10,0,25),15);
+});
+test('invalid native counts fail rather than creating negative or duplicate charges',()=>{
+ for(const n of [-1,NaN,1.5])assert.throws(()=>unbilledCount(n,0,25));
+});
