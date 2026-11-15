@@ -8,6 +8,14 @@ try {
  if(manifest && manifest.inputHash!==hash(input))throw new Error('Input changed; start a new export');
  if(!manifest){
   const result=await collect(input.filter?input:{maxResults:input.maxResults},{directory:path.resolve('.runtime/protondb'),job:'export'});
+  const info=Actor.getChargingManager().getPricingInfo();
+  if(info.perEventPrices['written-report']){
+   const rid=process.env.ACTOR_RUN_ID||process.env.APIFY_ACTOR_RUN_ID;
+   const run=await Actor.newClient().run(rid).get();
+   const spent=Object.entries(run.chargedEventCounts??{}).reduce((sum,[k,n])=>sum+n*(info.perEventPrices[k]??0),0);
+   const allowance=Math.max(0,Math.floor((info.maxTotalChargeUsd-spent+1e-9)/info.perEventPrices['written-report']));
+   result.metrics.limitedByBudget=result.rows.length>allowance;result.rows=result.rows.slice(0,allowance);
+  }
   manifest={inputHash:hash(input),rows:result.rows,collectedAt:new Date().toISOString(),metrics:result.metrics};
   await Actor.setValue('EXPORT_MANIFEST',manifest);
  }
