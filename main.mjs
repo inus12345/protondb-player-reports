@@ -29,6 +29,8 @@ try {
  const client=Actor.newClient({maxRetries:0}),dataset=await Actor.openDataset();
  const existing=new Set();
  for(let offset=0;;offset+=1000){const {items}=await dataset.getData({offset,limit:1000});for(const row of items){if(!row.recordId||existing.has(row.recordId))throw new Error('Duplicate or invalid existing output');existing.add(row.recordId);}if(items.length<1000)break;}
+ const pending=await Actor.getValue('PENDING_DELIVERY');
+ if(pending?.recordIds?.some(id=>!existing.has(id)))throw new Error('Prior dataset write is not confirmed. No delivery was repeated. Wait for stored results to settle and resurrect; contact support if records remain missing.');
  const selected=new Set(manifest.rows.map(x=>x.recordId));
  if([...existing].some(id=>!selected.has(id)))throw new Error('Existing output does not match export');
  const pricing=Actor.getChargingManager().getPricingInfo();
