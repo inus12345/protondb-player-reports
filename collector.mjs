@@ -82,7 +82,9 @@ export async function* records(filename) {
 async function request(url, metrics, fetcher) {
     for(let attempt=0;attempt<3;attempt++) {
         metrics.requests++;
+        const requestedAt=new Date().toISOString();
         const r=await fetcher(url,{signal:AbortSignal.timeout(120000),headers:{'User-Agent':'TheScrapeLab-ProtonDB-archive-evaluation'}});
+        (metrics.sourceRequests??=[]).push({url,statusCode:r.status,requestedAt});
         if(r.ok)return r;
         if(![429,500,502,503,504].includes(r.status) || attempt===2)throw new Error(`Source HTTP ${r.status}`);
         const wait=Number(r.headers.get('retry-after')??(attempt+1));
