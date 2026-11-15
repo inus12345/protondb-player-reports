@@ -4,3 +4,4 @@ storage/
 .env*
 *.sqlite*
 *.tar.gz
+release/*.json

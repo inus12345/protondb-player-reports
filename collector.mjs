@@ -103,10 +103,10 @@ export async function collect(input={}, {directory, job='export', failAfter, fet
     const output=path.join(directory,job+'.ndjson'),stateFile=path.join(directory,job+'-state.json');
     const state=fs.existsSync(stateFile)?JSON.parse(fs.readFileSync(stateFile)):null;
     if(state && (state.blobSha!==snapshot.sha || hash(state.input)!==hash(validated)))throw new Error('Snapshot or input changed; start a separate export');
-    const archive=path.join(directory,snapshot.sha+'.tar.gz'),dbFile=path.join(directory,snapshot.sha+'.sqlite');
+    const archive=path.join(directory,snapshot.sha+'.tar.gz'),dbFile=path.join(directory,snapshot.sha+'-'+hash(validated).slice(0,16)+'.sqlite');
     const db=new DatabaseSync(dbFile);
     try {
-        db.exec('PRAGMA journal_mode=WAL; CREATE TABLE IF NOT EXISTS meta (k TEXT PRIMARY KEY,v TEXT); CREATE TABLE IF NOT EXISTS reports (id TEXT PRIMARY KEY, ts INTEGER, game TEXT, hardware TEXT, payload TEXT);');
+        db.exec('PRAGMA journal_mode=MEMORY; PRAGMA synchronous=OFF; CREATE TABLE IF NOT EXISTS meta (k TEXT PRIMARY KEY,v TEXT); CREATE TABLE IF NOT EXISTS reports (id TEXT PRIMARY KEY, ts INTEGER, game TEXT, hardware TEXT, payload TEXT);');
         const cached=db.prepare("SELECT v FROM meta WHERE k='counts'").get();
         if(!cached) {
             const download=await request(snapshot.download_url,metrics,fetcher);
@@ -117,24 +117,31 @@ export async function collect(input={}, {directory, job='export', failAfter, fet
             fs.renameSync(archive+'.part',archive);
             db.exec('BEGIN; DELETE FROM reports;');
             const insert=db.prepare('INSERT OR IGNORE INTO reports VALUES (?,?,?,?,?)');
+            const sourceSeen=new Set(); metrics.eligibleTotal=0;metrics.filteredTotal=0;
+            const trim=db.prepare('DELETE FROM reports WHERE id NOT IN (SELECT id FROM reports ORDER BY ts DESC,id LIMIT ?)');
             try {
                 for await(const raw of records(archive)) {
                     metrics.fetched++;const n=normalize(raw,snapshot);
                     if(n.reject){metrics[n.reject]++;continue;}
-                    if(!insert.run(n.row.recordId,n.timestamp,n.row.steamAppId,n.hardware,JSON.stringify(n.row)).changes)metrics.duplicates++;
+                    if(sourceSeen.has(n.row.recordId)){metrics.duplicates++;continue;}sourceSeen.add(n.row.recordId);
+                    const matches=!validated.filter || (validated.filter.startsWith('game:')?n.row.steamAppId===validated.filter.slice(5):n.hardware.includes(validated.filter.slice(9).toLowerCase()));
+                    if(!matches){metrics.filteredTotal++;continue;}metrics.eligibleTotal++;
+                    insert.run(n.row.recordId,n.timestamp,n.row.steamAppId,n.hardware,JSON.stringify(n.row));
+                    if(metrics.eligibleTotal%100===0)trim.run(validated.maxResults);
                 }
+                trim.run(validated.maxResults);
                 db.prepare('INSERT OR REPLACE INTO meta VALUES (?,?)').run('counts',JSON.stringify(metrics));
                 db.exec('CREATE INDEX IF NOT EXISTS report_date ON reports(ts DESC,id); COMMIT;');
             } catch(e){db.exec('ROLLBACK;');throw e;}
         } else {
-            const original=JSON.parse(cached.v);for(const k of ['fetched','duplicates','incomplete','withoutSubstantiveNotes'])metrics[k]=original[k];
+            const original=JSON.parse(cached.v);for(const k of ['fetched','duplicates','incomplete','withoutSubstantiveNotes','eligibleTotal','filteredTotal'])metrics[k]=original[k];
         }
         const [kind, ...rest]=validated.filter.split(':'),term=rest.join(':');
         const where=kind==='game'?'WHERE game=?':kind==='hardware'?'WHERE instr(hardware,?)>0':'';
         const args=where?[term.toLowerCase()]:[];
-        const eligible=db.prepare(`SELECT COUNT(*) AS n FROM reports ${where}`).get(...args).n;
+        const eligible=metrics.eligibleTotal;
         const unique=db.prepare('SELECT COUNT(*) AS n FROM reports').get().n;
-        metrics.filteredOut=unique-eligible;
+        metrics.filteredOut=metrics.filteredTotal;
         const selected=db.prepare(`SELECT payload FROM reports ${where} ORDER BY ts DESC,id LIMIT ?`).all(...args,validated.maxResults).map(x=>JSON.parse(x.payload));
         metrics.excludedByLimit=Math.max(0,eligible-selected.length);
         if(state && state.selectionHash!==hash(selected.map(x=>x.recordId)))throw new Error('Resume selection changed');

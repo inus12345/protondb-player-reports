@@ -30,4 +30,17 @@ Contains information from ProtonDB contributors, exported by [bdefore](https://g
 
 ## Status and price proposal
 
-This is a private test candidate with no enabled monetization. Proposed pricing is $0.50 per 1,000 full written reports delivered, without a start fee. No charge is proposed for empty matches, rejected records or duplicates suppressed within a run. Cloud delivery/billing and costs are not yet verified.
+Private release validation is in progress. Pricing will consist of a disclosed export preparation fee plus a per-written-report charge; effective prices will be verified before publication. Rejected records and suppressed duplicates do not incur report charges. An empty match can still incur the preparation fee.
+
+## Python API example
+
+```python
+import os
+from apify_client import ApifyClient
+client = ApifyClient(os.environ["APIFY_TOKEN"])
+run = client.actor("thescrapelab/protondb-player-reports").call(run_input={"filter": "game:292030", "maxResults": 100})
+for row in client.dataset(run["defaultDatasetId"]).iterate_items():
+    print(row["gameTitle"], row["gpu"], row["noteText"])
+```
+
+Public transformation source and data-license notices: https://github.com/inus12345/protondb-player-reports . The collection timestamp is `collectedAt` in UTC; `date` is the player report date.
