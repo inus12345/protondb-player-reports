@@ -82,3 +82,5 @@ This row was collected during private cloud validation. Its notes are original p
 | `sourceUrl`, `archiveUrl` | Game page and maintainer download provenance |
 | `identityCandidate` | Provisional game/date/system grouping; does not identify a player or reliably track edits |
 | Attribution and license URLs | Provenance and data reuse obligations |
+
+Launch limit: `maxResults` accepts 1–1,000 written reports. The 10,000-row size is a cost/runtime projection only and is not offered in this release.

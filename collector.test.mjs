@@ -17,7 +17,7 @@ function fixture(rows) {
  return {gz,entry:{...snapshot,name:'reports_nov1_2026.tar.gz',size:gz.length,sha}};
 }
 test('reject invalid controls before touching the source',async()=>{
- for(const input of [{maxResults:0},{maxResults:1.5},{maxResults:10001},{filter:'GPU'},{filter:'game:abc'},{extra:true}]) {
+ for(const input of [{maxResults:0},{maxResults:1.5},{maxResults:1001},{filter:'GPU'},{filter:'game:abc'},{extra:true}]) {
   assert.throws(()=>validate(input));let called=false;
   await assert.rejects(collect(input,{directory:temp(),fetcher:()=>{called=true;throw Error('network');}}));assert.equal(called,false);
  }

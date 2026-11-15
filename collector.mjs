@@ -11,7 +11,7 @@ export const hash = v => crypto.createHash('sha256').update(JSON.stringify(canon
 export function validate(input = {}) {
     input = {...input}; if(typeof input.filter === 'string' && !input.filter.trim()) delete input.filter;
     const maxResults = input.maxResults ?? 10;
-    if (!Number.isInteger(maxResults) || maxResults < 1 || maxResults > 10000) throw new Error('maxResults must be an integer from 1 to 10000');
+    if (!Number.isInteger(maxResults) || maxResults < 1 || maxResults > 1000) throw new Error('maxResults must be an integer from 1 to 1000');
     if (input.filter !== undefined && (typeof input.filter !== 'string' || !/^(game:[1-9]\d*|hardware:\S.{0,99})$/.test(input.filter))) throw new Error('filter must be game:STEAM_ID or hardware:TEXT');
     if (Object.keys(input).some(k => !['filter', 'maxResults'].includes(k))) throw new Error('Only filter and maxResults are supported');
     return { maxResults, filter: input.filter ?? '' };
