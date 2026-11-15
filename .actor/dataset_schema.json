@@ -82,7 +82,7 @@
   },
   "views": {
     "reports": {
-      "title": "Written player reports",
+      "title": "Player reports \u2014 spreadsheet ready",
       "transformation": {
         "fields": [
           "gameTitle",
@@ -96,51 +96,183 @@
           "protonVersion",
           "protonVariant",
           "protonVersionSpecificity",
+          "recordId",
+          "sourceUrl",
           "snapshotDate",
-          "sourceUrl"
+          "collectedAt",
+          "archiveUrl",
+          "attribution",
+          "databaseLicense",
+          "contentsLicense"
         ]
       },
       "display": {
         "component": "table",
         "properties": {
           "gameTitle": {
-            "label": "gameTitle"
+            "label": "Game"
           },
           "steamAppId": {
-            "label": "steamAppId"
+            "label": "Steam app ID"
           },
           "date": {
-            "label": "date"
+            "label": "Player report date",
+            "format": "date"
           },
           "verdict": {
-            "label": "verdict"
+            "label": "Player verdict"
           },
           "noteText": {
-            "label": "noteText"
+            "label": "Full player notes"
           },
           "gpu": {
-            "label": "gpu"
+            "label": "GPU"
           },
           "os": {
-            "label": "os"
+            "label": "Operating system"
           },
           "gpuDriver": {
-            "label": "gpuDriver"
+            "label": "GPU driver"
           },
           "protonVersion": {
-            "label": "protonVersion"
+            "label": "Proton version"
           },
           "protonVariant": {
-            "label": "protonVariant"
+            "label": "Proton variant"
           },
           "protonVersionSpecificity": {
-            "label": "protonVersionSpecificity"
+            "label": "Version detail"
           },
-          "snapshotDate": {
-            "label": "snapshotDate"
+          "recordId": {
+            "label": "Report content ID"
           },
           "sourceUrl": {
-            "label": "sourceUrl"
+            "label": "ProtonDB game page",
+            "format": "link"
+          },
+          "snapshotDate": {
+            "label": "Snapshot date"
+          },
+          "collectedAt": {
+            "label": "Collected at (UTC)",
+            "format": "date"
+          },
+          "archiveUrl": {
+            "label": "Source archive",
+            "format": "link"
+          },
+          "attribution": {
+            "label": "Attribution"
+          },
+          "databaseLicense": {
+            "label": "Database license",
+            "format": "link"
+          },
+          "contentsLicense": {
+            "label": "Content license",
+            "format": "link"
+          }
+        }
+      }
+    },
+    "allFields": {
+      "title": "All source fields",
+      "transformation": {
+        "fields": [
+          "recordId",
+          "identityCandidate",
+          "steamAppId",
+          "gameTitle",
+          "date",
+          "verdict",
+          "notes",
+          "noteText",
+          "gpu",
+          "os",
+          "gpuDriver",
+          "protonVersion",
+          "protonVariant",
+          "protonVersionSpecificity",
+          "snapshotDate",
+          "sourceUrl",
+          "archiveUrl",
+          "attribution",
+          "databaseLicense",
+          "contentsLicense",
+          "collectedAt"
+        ]
+      },
+      "display": {
+        "component": "table",
+        "properties": {
+          "recordId": {
+            "label": "Report content ID"
+          },
+          "identityCandidate": {
+            "label": "Provisional grouping ID"
+          },
+          "steamAppId": {
+            "label": "Steam app ID"
+          },
+          "gameTitle": {
+            "label": "Game"
+          },
+          "date": {
+            "label": "Player report date",
+            "format": "date"
+          },
+          "verdict": {
+            "label": "Player verdict"
+          },
+          "notes": {
+            "label": "Notes by source field"
+          },
+          "noteText": {
+            "label": "Full player notes"
+          },
+          "gpu": {
+            "label": "GPU"
+          },
+          "os": {
+            "label": "Operating system"
+          },
+          "gpuDriver": {
+            "label": "GPU driver"
+          },
+          "protonVersion": {
+            "label": "Proton version"
+          },
+          "protonVariant": {
+            "label": "Proton variant"
+          },
+          "protonVersionSpecificity": {
+            "label": "Version detail"
+          },
+          "snapshotDate": {
+            "label": "Snapshot date"
+          },
+          "sourceUrl": {
+            "label": "ProtonDB game page",
+            "format": "link"
+          },
+          "archiveUrl": {
+            "label": "Source archive",
+            "format": "link"
+          },
+          "attribution": {
+            "label": "Attribution"
+          },
+          "databaseLicense": {
+            "label": "Database license",
+            "format": "link"
+          },
+          "contentsLicense": {
+            "label": "Content license",
+            "format": "link"
+          },
+          "collectedAt": {
+            "label": "Collected at (UTC)",
+            "format": "date"
           }
         }
       }

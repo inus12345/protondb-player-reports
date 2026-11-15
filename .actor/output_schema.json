@@ -2,7 +2,30 @@
   "actorOutputSchemaVersion": 1,
   "title": "Player report export",
   "properties": {
-    "reports": {"type": "string", "title": "Written player reports", "template": "{{links.apiDefaultDatasetUrl}}/items"},
-    "license": {"type": "string", "title": "Attribution and license notice", "template": "{{links.apiDefaultKeyValueStoreUrl}}/records/LICENSE_NOTICE"}
+    "reports": {
+      "type": "string",
+      "title": "Browse player reports (JSON)",
+      "template": "{{links.apiDefaultDatasetUrl}}/items?view=reports"
+    },
+    "csv": {
+      "type": "string",
+      "title": "Download spreadsheet-ready CSV",
+      "template": "{{links.apiDefaultDatasetUrl}}/items?format=csv&view=reports&attachment=true"
+    },
+    "excel": {
+      "type": "string",
+      "title": "Download Excel workbook",
+      "template": "{{links.apiDefaultDatasetUrl}}/items?format=xlsx&view=reports&attachment=true"
+    },
+    "allFields": {
+      "type": "string",
+      "title": "All original fields (JSON)",
+      "template": "{{links.apiDefaultDatasetUrl}}/items"
+    },
+    "license": {
+      "type": "string",
+      "title": "Attribution and license notice",
+      "template": "{{links.apiDefaultKeyValueStoreUrl}}/records/LICENSE_NOTICE"
+    }
   }
 }

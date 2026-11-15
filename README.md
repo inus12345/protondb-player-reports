@@ -1,8 +1,14 @@
+<img src="https://api.apify.com/v2/key-value-stores/3xUacfrydWCvmiaE1/records/logo.png" width="96" height="96" alt="ProtonDB Player Reports logo" />
+
 # ProtonDB Player Reports
 
 Export complete player-written Linux and Steam Deck compatibility reports from the latest public download published by ProtonDB's maintainer. Compare reports for the same Steam game across supplied GPUs, operating systems, drivers and Proton versions.
 
 The maintainer generally publishes monthly snapshots, with irregular release dates. This export uses the latest available snapshot; it is not a live report feed. Reports are sorted newest first. The snapshot's filename date is a label, not a guaranteed collection cutoff; inspect each report's date.
+
+## Who uses this data?
+
+Linux game publishers, Steam Deck QA teams and compatibility researchers can compare player symptoms across GPU, OS, driver and reported Proton versions. Use the game ID to join reports to your Steam catalog, and report dates to select experiences worth reproducing after an update.
 
 ## Quick start
 
@@ -13,6 +19,8 @@ Start with `{}` for ten recent written reports across games, or use:
 ```
 
 Use `hardware:NVIDIA` instead to match public GPU, OS or driver text. There is one optional filter and one result limit. Download the dataset as JSON or CSV from Apify Console.
+
+Open **Player reports — spreadsheet ready** for readable column headings and full player notes. The Output tab provides direct JSON, CSV and Excel downloads. CSV and Excel include flat report fields, stable content IDs, source links and license notices. **All source fields** also preserves the original notes object and provisional grouping field for API users.
 
 Each row contains the Steam app ID and title, report date, original verdict, full notes, supplied GPU/OS/driver, supplied Proton version or variant, source and archive URLs, snapshot date and license information. A `recordId` identifies the exact source record content. It is not an author identifier. Different notes with the same game/date/hardware remain separate.
 
@@ -30,9 +38,9 @@ Contains information from ProtonDB contributors, exported by [bdefore](https://g
 
 ## Pricing
 
-The preparation charge is **$0.05 per export**. This fee is charged once for the original run and is not repeated when that run is resurrected. Each full written report delivered costs **$0.0005 ($0.50 per 1,000 reports)**. Platform compute, transfer and ordinary run storage are included. No tier discounts apply.
+The preparation charge is **$0.05 per export**. This fee is charged once for the original run and is not repeated when that run is resurrected. Each full written report delivered costs **$0.0004 ($0.40 per 1,000 reports)**. Platform compute, transfer and ordinary run storage are included. No tier discounts apply.
 
-Examples at 1 GB: ten reports cost $0.055; 100 cost $0.10; 1,000 cost $0.55. The preparation charge applies even if no reports match or collection fails after starting. Rejected records, suppressed duplicates and same-run delivery retries do not incur additional report charges. A fresh run is a separate export. User-initiated storage reads/retention after a run can generate normal account storage costs.
+Examples at 1 GB: ten reports cost $0.054; 100 cost $0.09; 1,000 cost $0.45. The preparation charge applies even if no reports match or collection fails after starting. Rejected records, suppressed duplicates and same-run delivery retries do not incur additional report charges. A fresh run is a separate export. User-initiated storage reads/retention after a run can generate normal account storage costs.
 
 ## Python API example
 
@@ -84,3 +92,15 @@ This row was collected during private cloud validation. Its notes are original p
 | Attribution and license URLs | Provenance and data reuse obligations |
 
 Launch limit: `maxResults` accepts 1–1,000 written reports. The 10,000-row size is a cost/runtime projection only and is not offered in this release.
+
+## FAQs
+
+**Can I run it without knowing a game ID?** Yes. Leave the filter blank and set the maximum number of reports. The default returns ten reports across games.
+
+**How do I compare a game across configurations?** Use `game:292030` for The Witcher 3, then compare GPU, operating system, driver, Proton version and player report date in the spreadsheet. Different player reports remain separate.
+
+**Is this real-time data?** No. Each new export downloads the maintainer’s latest public snapshot, generally published monthly. The snapshot date is included in every row.
+
+**Why is a version blank?** Players did not always supply an exact version. Blank values stay blank; a variant such as `official` does not prove an installed version.
+
+**What will 1,000 reports cost?** $0.45 total: $0.05 preparation plus $0.40 for 1,000 delivered written reports, including ordinary run platform usage. Preparation also applies to an empty match.
