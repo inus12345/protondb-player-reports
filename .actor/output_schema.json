@@ -4,23 +4,23 @@
   "properties": {
     "reports": {
       "type": "string",
-      "title": "Browse player reports (JSON)",
+      "title": "Player reports",
       "template": "{{links.apiDefaultDatasetUrl}}/items?view=reports"
     },
     "csv": {
       "type": "string",
       "title": "Download spreadsheet-ready CSV",
-      "template": "{{links.apiDefaultDatasetUrl}}/items?format=csv&view=reports&attachment=true"
+      "template": "{{links.apiDefaultKeyValueStoreUrl}}/records/REPORTS.csv"
     },
     "excel": {
       "type": "string",
-      "title": "Download Excel workbook",
-      "template": "{{links.apiDefaultDatasetUrl}}/items?format=xlsx&view=reports&attachment=true"
+      "title": "Excel workbook \u2014 full player text",
+      "template": "{{links.apiDefaultKeyValueStoreUrl}}/records/REPORTS.xlsx"
     },
     "allFields": {
       "type": "string",
-      "title": "All original fields (JSON)",
-      "template": "{{links.apiDefaultDatasetUrl}}/items"
+      "title": "All source fields",
+      "template": "{{links.apiDefaultDatasetUrl}}/items?view=allFields"
     },
     "license": {
       "type": "string",

@@ -1,6 +1,6 @@
 <img src="https://api.apify.com/v2/key-value-stores/3xUacfrydWCvmiaE1/records/logo.png" width="96" height="96" alt="ProtonDB Player Reports logo" />
 
-# ProtonDB Player Reports
+# ProtonDB Player Reports Scraper
 
 Export complete player-written Linux and Steam Deck compatibility reports from the latest public download published by ProtonDB's maintainer. Compare reports for the same Steam game across supplied GPUs, operating systems, drivers and Proton versions.
 
@@ -20,7 +20,7 @@ Start with `{}` for ten recent written reports across games, or use:
 
 Use `hardware:NVIDIA` instead to match public GPU, OS or driver text. There is one optional filter and one result limit. Download the dataset as JSON or CSV from Apify Console.
 
-Open **Player reports — spreadsheet ready** for readable column headings and full player notes. The Output tab provides direct JSON, CSV and Excel downloads. CSV and Excel include flat report fields, stable content IDs, source links and license notices. **All source fields** also preserves the original notes object and provisional grouping field for API users.
+Open **Player reports — spreadsheet ready** for readable column headings and full player notes. Use the Output selector for the spreadsheet-ready CSV and the **Excel workbook — full player text** file. The workbook preserves Unicode, including emojis, and provides a frozen header and filters. JSON remains available from the dataset. CSV and Excel include flat report fields, stable content IDs, source links and license notices. **All source fields** also preserves the original notes object and provisional grouping field for API users.
 
 Each row contains the Steam app ID and title, report date, original verdict, full notes, supplied GPU/OS/driver, supplied Proton version or variant, source and archive URLs, snapshot date and license information. A `recordId` identifies the exact source record content. It is not an author identifier. Different notes with the same game/date/hardware remain separate.
 
@@ -104,3 +104,10 @@ Launch limit: `maxResults` accepts 1–1,000 written reports. The 10,000-row siz
 **Why is a version blank?** Players did not always supply an exact version. Blank values stay blank; a variant such as `official` does not prove an installed version.
 
 **What will 1,000 reports cost?** $0.45 total: $0.05 preparation plus $0.40 for 1,000 delivered written reports, including ordinary run platform usage. Preparation also applies to an empty match.
+
+## Troubleshooting
+
+- **Invalid filter:** use `game:292030` or `hardware:NVIDIA`, or leave the filter blank.
+- **No matching reports:** try a broader hardware term or check the Steam app ID. Preparation still applies to an empty match.
+- **Waiting for results:** every fresh export scans the complete archive to find the newest reports. Recent 1,000-report runs took roughly 5–6 minutes.
+- **Excel text differs:** choose **Excel workbook — full player text** in Output. Apify’s generic dataset-to-Excel export can omit emojis; the supplied workbook preserves them. JSON and CSV also preserve original text.

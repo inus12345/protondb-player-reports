@@ -1,5 +1,6 @@
 import { Actor } from 'apify';
 import path from 'node:path';
+import { makeCsv, makeXlsx } from './exports.mjs';
 import { unbilledCount } from './billing.mjs';
 import { collect, hash, validate } from './collector.mjs';
 await Actor.init();
@@ -63,6 +64,9 @@ try {
   ledger[key]={rows:batch.length,billed:!!price};await Actor.setValue('DELIVERY_LEDGER',ledger);
   await Actor.setValue('PENDING_DELIVERY',null);
  }
+ const exportRows=manifest.rows.filter(row=>existing.has(row.recordId)).map(row=>({...row,collectedAt:manifest.collectedAt}));
+ await Actor.setValue('REPORTS.csv',makeCsv(exportRows),{contentType:'text/csv; charset=utf-8'});
+ await Actor.setValue('REPORTS.xlsx',makeXlsx(exportRows),{contentType:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
  await Actor.setValue('SOURCE_PROOF',{...manifest.metrics,datasetRows:existing.size,deliveredThisExecution:newRows,billingConfigured:!!price});
  await Actor.setValue('LICENSE_NOTICE',{attribution:'ProtonDB contributors and bdefore; normalized by TheScrapeLab',databaseLicense:'https://opendatacommons.org/licenses/odbl/1-0/',contentsLicense:'https://opendatacommons.org/licenses/dbcl/1-0/',source:'https://github.com/bdefore/protondb-data',transformations:'https://github.com/inus12345/protondb-player-reports/blob/main/collector.mjs',snapshot:manifest.metrics.snapshot});
  await Actor.setStatusMessage(`Delivered ${existing.size} full written reports from snapshot ${manifest.metrics.snapshot.date}.${manifest.metrics.limitedByBudget?' Partial export: spending limit reached.':''}`);
