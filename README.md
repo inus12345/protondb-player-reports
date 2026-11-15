@@ -22,15 +22,17 @@ Written reports must contain at least 20 non-whitespace-trimmed characters and f
 
 Results cover the latest archive, not every report on the live site. Older schema generations may be absent from that archive. A cold run downloads and indexes the complete archive before selecting the newest rows. Fewer rows are returned when the source has fewer matching usable reports. Empty matches return an empty dataset.
 
-Export retries reconcile existing rows in the same run. A fresh run is a new export and may return the same records. Content changes create new content IDs; this product does not promise author-level edit tracking. Cloud retry and native billing behavior must be verified before a public release.
+Export retries reconcile existing rows in the same run. A fresh run is a new export and may return the same records. Content changes create new content IDs; this product does not promise author-level edit tracking. Interrupted runs retain their selected snapshot and delivery ledger. If a dataset write has an uncertain outcome, the run fails rather than blindly repeating the write; resume reconciles existing output before continuing.
 
 ## Attribution and licensing
 
 Contains information from ProtonDB contributors, exported by [bdefore](https://github.com/bdefore/protondb-data), under [ODbL 1.0](https://opendatacommons.org/licenses/odbl/1-0/); individual contents are under [DbCL 1.0](https://opendatacommons.org/licenses/dbcl/1-0/). TheScrapeLab normalizes fields, selects written reports, sorts by date and removes exact duplicates. Preserve these notices and source links with exports. Derivative database reuse remains subject to the applicable share-alike and access obligations. A public release must offer the qualifying derivative data or alteration material under ODbL section 4.6. This is independent of ProtonDB and Valve.
 
-## Status and price proposal
+## Pricing
 
-Private release validation is in progress. Pricing will consist of a disclosed export preparation fee plus a per-written-report charge; private settings currently save $0.05 per start (per GB, minimum one) plus $0.0005 per written report. These settings are undergoing native billing verification before publication. Rejected records and suppressed duplicates do not incur report charges. An empty match can still incur the preparation fee.
+The preparation charge is **$0.05 per run per GB of allocated memory, with a minimum of one unit**. The normal 1 GB configuration therefore starts at $0.05. Each full written report delivered costs **$0.0005 ($0.50 per 1,000 reports)**. Platform compute, transfer and ordinary run storage are included. No tier discounts apply.
+
+Examples at 1 GB: ten reports cost $0.055; 100 cost $0.10; 1,000 cost $0.55. The preparation charge applies even if no reports match or collection fails after starting. Rejected records, suppressed duplicates and same-run delivery retries do not incur additional report charges. A fresh run is a separate export. User-initiated storage reads/retention after a run can generate normal account storage costs.
 
 ## Python API example
 
