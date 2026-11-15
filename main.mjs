@@ -4,6 +4,12 @@ import { collect, hash, validate } from './collector.mjs';
 await Actor.init();
 try {
  const input=validate(await Actor.getInput()??{});
+ const startupInfo=Actor.getChargingManager().getPricingInfo();
+ const startupRunId=process.env.ACTOR_RUN_ID||process.env.APIFY_ACTOR_RUN_ID;
+ if(startupInfo.perEventPrices['export-preparation'] && startupRunId){
+  const state=await Actor.newClient().run(startupRunId).get();
+  if(!(state.chargedEventCounts?.['export-preparation']>0))await Actor.newClient().run(startupRunId).charge({eventName:'export-preparation',count:1,idempotencyKey:`preparation-${startupRunId}`});
+ }
  let manifest=await Actor.getValue('EXPORT_MANIFEST');
  if(manifest && manifest.inputHash!==hash(input))throw new Error('Input changed; start a new export');
  if(!manifest){
@@ -29,12 +35,15 @@ try {
  const eventName='written-report',price=pricing.perEventPrices[eventName];
  const ledger=await Actor.getValue('DELIVERY_LEDGER')??{};
  let newRows=0;
+ let billedPrefix=0;
+ if(price&&runId){const native=await client.run(runId).get();billedPrefix=native.chargedEventCounts?.[eventName]??0;}
+ if(billedPrefix>existing.size)throw new Error('Billed reports exceed confirmed dataset rows; stop for reconciliation');
  for(let i=0;i<manifest.rows.length;i+=25){
   const batch=manifest.rows.slice(i,i+25),key=hash(batch.map(r=>r.recordId));
-  if(!ledger[key] && price && runId){
+  if(billedPrefix<i+batch.length && price && runId){
    const run=await client.run(runId).get();
    const total=Object.entries(run.chargedEventCounts??{}).reduce((s,[k,n])=>s+n*(pricing.perEventPrices[k]??0),0);
-   if(total+batch.length*price>pricing.maxTotalChargeUsd+1e-9){await Actor.setStatusMessage('Stopped at the spending limit; output is partial.');break;}
+   if(total+Math.max(0,i+batch.length-billedPrefix)*price>pricing.maxTotalChargeUsd+1e-9){await Actor.setStatusMessage('Stopped at the spending limit; output is partial.');break;}
   }
   const missing=batch.filter(r=>!existing.has(r.recordId));
   if(missing.length){
@@ -43,7 +52,11 @@ try {
    for(const row of missing)existing.add(row.recordId);
    newRows+=missing.length;
   }
-  if(!ledger[key] && price && runId)await client.run(runId).charge({eventName,count:batch.length,idempotencyKey:`reports-${key}`});
+  if(billedPrefix<i+batch.length && price && runId){
+   const delta=i+batch.length-billedPrefix;
+   await client.run(runId).charge({eventName,count:delta,idempotencyKey:`reports-${runId}-${key}`});
+   billedPrefix=i+batch.length;
+  }
   ledger[key]={rows:batch.length,billed:!!price};await Actor.setValue('DELIVERY_LEDGER',ledger);
   await Actor.setValue('PENDING_DELIVERY',null);
  }

@@ -30,7 +30,7 @@ Contains information from ProtonDB contributors, exported by [bdefore](https://g
 
 ## Pricing
 
-The preparation charge is **$0.05 per run per GB of allocated memory, with a minimum of one unit**. The normal 1 GB configuration therefore starts at $0.05. Each full written report delivered costs **$0.0005 ($0.50 per 1,000 reports)**. Platform compute, transfer and ordinary run storage are included. No tier discounts apply.
+The preparation charge is **$0.05 per export**. This fee is charged once for the original run and is not repeated when that run is resurrected. Each full written report delivered costs **$0.0005 ($0.50 per 1,000 reports)**. Platform compute, transfer and ordinary run storage are included. No tier discounts apply.
 
 Examples at 1 GB: ten reports cost $0.055; 100 cost $0.10; 1,000 cost $0.55. The preparation charge applies even if no reports match or collection fails after starting. Rejected records, suppressed duplicates and same-run delivery retries do not incur additional report charges. A fresh run is a separate export. User-initiated storage reads/retention after a run can generate normal account storage costs.
 
