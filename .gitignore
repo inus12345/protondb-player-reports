@@ -6,3 +6,4 @@ storage/
 *.tar.gz
 release/*.json
 __pycache__/
+release/*.html
