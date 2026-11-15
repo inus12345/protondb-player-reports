@@ -1,3 +1,5 @@
+> Final review: [FINAL_CHECK.md](FINAL_CHECK.md). Current0.1.13 includes Unicode-preserving CSV/Excel files, validated at1000reports. Earlier generic XLSX checks below established row counts, not full Unicode fidelity; the discovered3-note omission is fixed in the provided workbook.
+
 # Store, pricing and spreadsheet polish — 15 November 2026
 
 User explicitly requested a logo on Apify, low competitive monetization, simple inputs and useful easy exports. Scope: README/logo, schema presentation and pricing only; collection/runtime code and raw field contracts unchanged.

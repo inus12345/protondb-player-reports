@@ -1,3 +1,5 @@
+> Final review: [FINAL_CHECK.md](FINAL_CHECK.md). Current0.1.13 includes Unicode-preserving CSV/Excel files, validated at1000reports. Earlier generic XLSX checks below established row counts, not full Unicode fidelity; the discovered3-note omission is fixed in the provided workbook.
+
 > Current Store update (15 November 2026): see [POLISH.md](POLISH.md). Default build0.1.12; active price$0.05 preparation+$0.0004/written report ($0.45 total for1000), platform usage included. README logo and CSV/Excel views verified. The original release evidence and historical prices below remain unchanged. Separate avatar upload requires the Console picture control.
 
 # ProtonDB Player Reports release report
