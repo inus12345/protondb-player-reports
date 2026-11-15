@@ -46,3 +46,39 @@ for row in client.dataset(run["defaultDatasetId"]).iterate_items():
 ```
 
 Public transformation source and data-license notices: https://github.com/inus12345/protondb-player-reports . The collection timestamp is `collectedAt` in UTC; `date` is the player report date.
+
+## Real output example
+
+This row was collected during private cloud validation. Its notes are original player text.
+
+```json
+{
+  "recordId": "2ab388387a3a2d778ac567a1a8b85e2ef5e52ecde525631b39ce172b169acf85",
+  "steamAppId": "4096830",
+  "gameTitle": "S.O.N.A.R. - Submarine Operators Not Actually Ready",
+  "date": "2026-11-01T18:58:43.000Z",
+  "verdict": "yes",
+  "noteText": "Game runs perfect ootb",
+  "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+  "os": "Fedora Linux 44 (KDE Plasma Desktop Edition)",
+  "gpuDriver": "NVIDIA 615.78.08",
+  "protonVersion": null,
+  "protonVariant": "official",
+  "protonVersionSpecificity": "not-supplied",
+  "snapshotDate": "2026-11-01",
+  "collectedAt": "2026-11-15T15:27:23.921Z",
+  "sourceUrl": "https://www.protondb.com/app/4096830"
+}
+```
+
+| Fields | Meaning |
+|---|---|
+| `recordId` | SHA256 of the original source record; not an author ID |
+| `steamAppId`, `gameTitle` | Steam game identity supplied by the source |
+| `date`, `collectedAt`, `snapshotDate` | Player report UTC date, collection UTC time, archive filename label |
+| `verdict`, `notes`, `noteText` | Original player verdict, notes by source field, combined full notes |
+| `gpu`, `os`, `gpuDriver` | Publicly supplied setup; unavailable values remain null |
+| `protonVersion`, `protonVariant`, `protonVersionSpecificity` | Reported version/variant and whether the source supplies a version string |
+| `sourceUrl`, `archiveUrl` | Game page and maintainer download provenance |
+| `identityCandidate` | Provisional game/date/system grouping; does not identify a player or reliably track edits |
+| Attribution and license URLs | Provenance and data reuse obligations |
