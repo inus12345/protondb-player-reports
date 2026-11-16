@@ -1,3 +1,5 @@
+> 16 November verification: [NOV16_RELEASE_CHECK.md](NOV16_RELEASE_CHECK.md). Build0.1.13 remains live; fresh10/100tests and all19export fields pass. Brave now verified the actual Console table, all-fields view and workbook download. The avatar was uploaded and saved in Console/API; public Store thumbnail rendering is still pending. Historical UI limitations below are superseded by this update.
+
 > Final review: [FINAL_CHECK.md](FINAL_CHECK.md). Current0.1.13 includes Unicode-preserving CSV/Excel files, validated at1000reports. Earlier generic XLSX checks below established row counts, not full Unicode fidelity; the discovered3-note omission is fixed in the provided workbook.
 
 # Store, pricing and spreadsheet polish — 15 November 2026

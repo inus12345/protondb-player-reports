@@ -1,3 +1,5 @@
+> 16 November verification: [NOV16_RELEASE_CHECK.md](NOV16_RELEASE_CHECK.md). Build0.1.13 remains live; fresh10/100tests and all19export fields pass. Brave now verified the actual Console table, all-fields view and workbook download. The avatar was uploaded and saved in Console/API; public Store thumbnail rendering is still pending. Historical UI limitations below are superseded by this update.
+
 # Final SEO, input, output and stress review —15 November2026
 
 Actor https://apify.com/thescrapelab/protondb-player-reports, ID5MfSH4T9Sv9Hnca02. User authorized final review and stress test; existing full build/deploy authority retained.
